@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
+
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background-color: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .folder {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .folder-front {
+      position: relative;
+      height: 100px;
+      width: 120px;
+      background-color: #d97706;
+      border-radius: 10px;
+      border-top-left-radius: 0px;
+      transform-origin: bottom right;
+    }
+
+    .folder-front::before {
+      content: "";
+      width: 25px;
+      height: 15px;
+      position: absolute;
+      top: -10px;
+      background-color: red;
+      border-radius: 5px;
+    }
+
+    .folder-back {
+      position: absolute;
+      z-index: 101;
+      height: 100px;
+      width: 100px;
+      background-color: #fbbf24;
+      transform-origin: bottom left;
+      border-bottom-left-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .folder-right {
+      position: absolute;
+      z-index: 101;
+      height: 100px;
+      top: 0%;
+      right: 0%;
+      width: 50px;
+      background-color: #fbbf24;
+      border-bottom-right-radius: 10px;
+      border-top-right-radius: 10px;
+      transition: all 0.3s ease;
+      transform-origin: bottom left;
+    }
+
+    .paper {
+      position: absolute;
+      z-index: 8;
+      top: 7px;
+      width: 70px;
+      height: 50px;
+      background-color: #d97706;
+      left: 20%;
+      border-radius: 5px;
+    }
+
+    .paper:nth-child(2) {
+      top: 14px;
+      z-index: 9;
+      background-color: #d97706;
+    }
+
+    .paper:nth-child(3) {
+      top: 20px;
+      z-index: 10;
+      background-color: white;
+    }
+
+    .folder:hover {
+      transform: translateY(-8px);
+      transition: all 0.3s linear;
+
+      .folder-back {
+        transform: skew(5deg) scaleY(0.7);
+        transform-origin: bottom left;
+        transition: all 0.3s linear;
+      }
+
+      .folder-front {
+        transition: all 0.3s linear;
+      }
+
+      .folder-right {
+        transform-origin: bottom right;
+        transform: skew(-5deg) scaleY(0.7);
+        transition: all 0.3s linear;
+      }
+    }
+
+    .files {
+      position: relative;
+      font-size: 18px;
+      color: white;
+      text-transform: uppercase;
+      z-index: 1000;
+      padding-left: 10px;
+      padding-top: 18px;
+      letter-spacing: 3px;
+      font-family: "Staatliches", cursive;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .image {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+    
+    .folder-front::before {
+      content: "";
+      width: 15px;
+      height: 10px;
+      background-color: #d97706;
+      padding: 5px;
+      position: absolute;
+      top: -10px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="folder">
+    <div class="folder-back">
+      <p class="files">
+        <img class="image" src="../WhatsApp Image 2025-04-06 at 20.39.59_d23bf40a.jpg" alt="">
+      </p>
+    </div>
+    <div class="paper"></div>
+    <div class="paper"></div>
+    <div class="paper"></div>
+    <div class="folder-front"></div>
+    <div class="folder-right"></div>
+  </div>
+</body>
+
+</html>

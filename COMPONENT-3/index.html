@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smooth Device Transformation Animation</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      position: relative;
+      height: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .device {
+      width: 120px;
+      height: 200px;
+      background-color: white; /* Screen color */
+      border: 5px solid black; /* Black border */
+      border-radius: 20px;
+      position: relative;
+      animation: transformDevices 10s infinite cubic-bezier(0.645, 0.045, 0.355, 1.000);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      transition: all 0.5s ease;
+    }
+
+    /* Shared pseudo-element for notch, button, and stand */
+    .device::before {
+      content: '';
+      position: absolute;
+      animation: accessoryAnimation 10s infinite cubic-bezier(0.645, 0.045, 0.355, 1.000);
+      z-index: 2;
+    }
+
+    .label {
+      position: absolute;
+      bottom: 50px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      opacity: 0;
+      animation: labelFade 10s infinite cubic-bezier(0.645, 0.045, 0.355, 1.000);
+    }
+
+    @keyframes transformDevices {
+      /* Mobile state */
+      0%, 25% {
+        width: 120px;
+        height: 200px;
+        background-color: white;
+        border-radius: 20px;
+      }
+
+      /* Smooth transition to Tablet */
+      25%, 40% {
+        width: 200px;
+        height: 280px;
+        background-color: white;
+        border-radius: 15px;
+      }
+
+      /* Tablet state */
+      40%, 58% {
+        width: 200px;
+        height: 280px;
+        background-color: white;
+        border-radius: 15px;
+      }
+
+      /* Smooth transition to Desktop */
+      58%, 73% {
+        width: 300px;
+        height: 180px;
+        background-color: white;
+        border-radius: 10px;
+      }
+
+      /* Desktop state */
+      73%, 90% {
+        width: 300px;
+        height: 180px;
+        background-color: white;
+        border-radius: 10px;
+      }
+
+      /* Smooth transition back to Mobile */
+      90%, 100% {
+        width: 120px;
+        height: 200px;
+        background-color: white;
+        border-radius: 20px;
+      }
+    }
+
+    @keyframes accessoryAnimation {
+      /* Mobile - Notch */
+      0%, 25% {
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 15px;
+        border-radius: 0 0 15px 15px;
+        background-color: black;
+      }
+
+      /* Gradual transition to Tablet button */
+      25%, 40% {
+        top: 10px;
+        left: 20px;
+        transform: translateX(0);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: black;
+      }
+
+      /* Tablet - Button */
+      40%, 58% {
+        top: 10px;
+        left: 20px;
+        transform: translateX(0);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: black;
+      }
+
+      /* Gradual transition to Desktop stand */
+      58%, 73% {
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 20px;
+        border-radius: 0 0 5px 5px;
+        background-color: black;
+      }
+
+      /* Desktop - Stand */
+      73%, 90% {
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 20px;
+        border-radius: 0 0 5px 5px;
+        background-color: black;
+      }
+
+      /* Gradual transition back to Mobile */
+      90%, 100% {
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 15px;
+        border-radius: 0 0 15px 15px;
+        background-color: black;
+      }
+    }
+
+    @keyframes labelFade {
+      0%, 20% {
+        opacity: 1;
+        content: "Mobile";
+      }
+      25%, 35% {
+        opacity: 0;
+      }
+      40%, 53% {
+        opacity: 1;
+        content: "Tablet";
+      }
+      58%, 68% {
+        opacity: 0;
+      }
+      73%, 85% {
+        opacity: 1;
+        content: "Desktop";
+      }
+      90%, 100% {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="device"></div>
+    <div class="label">Mobile</div>
+  </div>
+  
+  <script>
+    const label = document.querySelector('.label');
+    
+    // Function to update label text based on animation progress
+    function updateLabel() {
+      const animationTime = 10000; // 10 seconds for full cycle
+      const currentTime = (performance.now() % animationTime) / animationTime;
+      
+      if (currentTime < 0.4) {
+        label.textContent = "Mobile";
+        label.style.opacity = currentTime < 0.25 ? 1 : 1 - (currentTime - 0.25) * 6.67;
+      } else if (currentTime < 0.73) {
+        label.textContent = "Tablet";
+        label.style.opacity = currentTime < 0.58 ? 1 : 1 - (currentTime - 0.58) * 6.67;
+      } else {
+        label.textContent = "Desktop";
+        label.style.opacity = currentTime < 0.9 ? 1 : 1 - (currentTime - 0.9) * 10;
+      }
+      
+      requestAnimationFrame(updateLabel);
+    }
+    
+    requestAnimationFrame(updateLabel);
+  </script>
+</body>
+</html>
